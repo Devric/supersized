@@ -220,10 +220,22 @@
 						$('.image-loading').removeClass('image-loading');
 					}
 					
-					// Horizontally Center
-					if (base.options.horizontal_center){
-						$(this).css('left', (browserwidth - $(this).width())/2);
+                                        // Horizontally alignment
+                                        var offsetPercent = base.options.offset ? ($(this).width() - base.options.offset) / $(this).width() : false;
+                                        
+                                        // align right
+                                        if (base.options.horizontal_align === 'right'){
+                                            $(this).css('left', (browserwidth - $(this).width()) * (offsetPercent ? offsetPercent : 1));
+
+                                        // align left
+                                        } else if (base.options.horizontal_align === 'left'){
+                                            $(this).css('left', offsetPercent ? offsetPercent * 1 : 0);
+
+                                        // align center
+                                        } else if (base.options.horizontal_center || base.options.horizontal_align === 'center'){
+					    $(this).css('left', (browserwidth - $(this).width())/2);
 					}
+                                        
 					
 					// Vertically Center
 					if (base.options.vertical_center){
@@ -287,7 +299,9 @@
 		min_width		        :   0,			// Min width allowed (in pixels)
 		min_height		        :   0,			// Min height allowed (in pixels)
 		vertical_center         :   1,			// Vertically center background
-		horizontal_center       :   1,			// Horizontally center background
+                horizontal_center  : 1, // Horizontally center background
+                horizontal_align   : 'center',
+                offset             : false, // offset alignment
 		fit_always				:	0,			// Image will never exceed browser width or height (Ignores min. dimensions)
 		fit_portrait         	:   1,			// Portrait images will not exceed browser height
 		fit_landscape			:   0			// Landscape images will not exceed browser width
